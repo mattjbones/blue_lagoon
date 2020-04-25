@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "global": "^4.4.0",
+    "mithril": "^2.0.4"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^4.2.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --open",
+    "build": "webpack",
+    "serve": "http_server"
+  }
+}
