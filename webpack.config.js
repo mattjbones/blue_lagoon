@@ -12,10 +12,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       hash: true, 
       filename: 'dist/index.html',
-      template: 'app/index.html',
+      template: 'app/index.template.html',
     }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
-	],
+  ],
+  devtool: 'source-map',
   watch: true
 };
