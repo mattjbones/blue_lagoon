@@ -20,5 +20,5 @@ navigate to `/dist`.
 
 ### Animation
 - https://tobiasahlin.com/blog/how-to-animate-box-shadow/ 
-
+- https://davidwalsh.name/css-flip
 
