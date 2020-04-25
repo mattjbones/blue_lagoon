@@ -2,21 +2,37 @@ import m from "mithril";
 import "./style.css";
 
 class Card {
+  constructor() {
+    this.isFlipped = false;
+  }
+
   view(vnode) {
     const { card } = vnode.attrs;
-    return m(".flip-container", m(".flipper", [m(Front), m(Back)]));
+    const { isFlipped } = this;
+    return m(
+      `.flip-container ${isFlipped ? " .flip" : ""}`,
+      { onclick: () => this._handleCardClick(vnode) },
+      m(".flipper", [m(Front), m(Back, { card })])
+    );
+  }
+
+  _handleCardClick(vnode) {
+    const { onCardClick, card } = vnode.attrs;
+    this.isFlipped = !this.isFlipped;
+    onCardClick(card);
   }
 }
 
 class Front {
   view(vnode) {
-    return m(".front", "Front");
+    return m(".front", m("p.front-logo"));
   }
 }
 
 class Back {
   view(vnode) {
-    return m(".back", "Back");
+    const { title } = vnode.attrs.card;
+    return m(".back", `${title}`);
   }
 }
 

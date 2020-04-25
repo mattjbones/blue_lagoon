@@ -1,18 +1,19 @@
 .flip-container {
   perspective: 1000px;
+  display: inline-block;
 }
 
-/* flip the pane when hovered */
-.flip-container:hover .flipper,
-.flip-container.hover .flipper {
+.flip-container.flip .flipper {
   transform: rotateY(180deg);
 }
 
 .flip-container,
 .front,
 .back {
-  width: 160px;
-  height: 240px;
+  width: 140px;
+  height: 220px;
+  border-radius: 6px;
+  margin-right: 6px;
 }
 
 /* flip speed goes here */
@@ -29,6 +30,9 @@
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* front pane, placed above back */

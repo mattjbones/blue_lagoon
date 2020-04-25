@@ -1,6 +1,4 @@
 import m from "mithril";
-import Game from "./views/Game";
-import Header from "./views/Header";
-import "./app.css";
+import App from "./app";
 
-m.render(document.body, m("main", [m(Header), m(Game)]));
+m.mount(document.body, App);

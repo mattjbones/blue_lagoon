@@ -9,7 +9,7 @@ class GameView {
         "h2",
         `Starting with ${GameModel.size} pair${GameModel.size > 1 ? "s" : ""}`
       ),
-      m(Stage, { cards: GameModel.cards }),
+      m(Stage, { game: GameModel }),
     ]);
   }
 }

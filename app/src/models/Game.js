@@ -13,7 +13,10 @@ const cards = [
   },
 ];
 
+const compareCards = (card1, card2) => card1.pair !== card2.id;
+
 export default {
+  compareCards,
   cards,
   size: cards.length / 2,
 };
