@@ -1,11 +1,10 @@
 import m from "mithril";
 import GameModel from "../../models/Game";
 import Stage from "../Stage";
-import styler from "mithril-j2c";
 
 class GameView {
   view() {
-    return m(`section.${styles.game}`, [
+    return m(`section`, [
       m(
         "h2",
         `Starting with ${GameModel.size} pair${GameModel.size > 1 ? "s" : ""}`
@@ -14,11 +13,5 @@ class GameView {
     ]);
   }
 }
-
-const styles = styler.attach({
-  ".game": {
-    text_align: "left",
-  },
-});
 
 export default GameView;

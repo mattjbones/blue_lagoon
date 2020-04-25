@@ -8,6 +8,25 @@ module.exports = {
     path: path.resolve(__dirname, "../dist"),
     filename: "[name].[hash].bundle.js",
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              config: {
+                path: "./config/postcss.config.js",
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       hash: true,
