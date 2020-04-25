@@ -4,32 +4,92 @@ import "./style.css";
 
 class Stage {
   constructor(intialVnode) {
-    this.compareCards = intialVnode.attrs.game.compareCards;
-    this.targetCard = undefined;
+    this.selectedCards = [];
+    this.flipped = new Set();
+    this.isActiveGame = true;
+    this.hasWon = false;
+    console.log({ intialVnode });
   }
 
   view(vnode) {
-    const { cards } = vnode.attrs.game;
+    const { cards, onResetGame } = vnode.attrs;
     return m(".stage", [
-      ...cards.map((card) =>
-        m(Card, { card, onCardClick: () => this._handleCardClick(card) })
-      ),
+      m(".card-container", [
+        ...cards.map((card) =>
+          m(Card, {
+            card,
+            onCardClick: () => this.isActiveGame && this._handleCardClick(card),
+            isFlipped: this.flipped.has(card),
+          })
+        ),
+      ]),
+      this.hasWon
+        ? [
+            m("h2.winner", "Winner!!"),
+            m(
+              "p.again",
+              { onclick: () => this._handleResetGame(onResetGame) },
+              "Play again?"
+            ),
+          ]
+        : undefined,
     ]);
   }
 
-  _handleCardClick(card) {
-    if (!this.targetCard) {
-      this.targetCard = card;
-    } else {
-      if (this.compareCards(this.targetCard, card)) {
-        console.log("score++");
+  onupdate(vnode) {
+    this._checkForMatch(vnode);
+  }
+
+  _checkForMatch(vnode) {
+    const { compareCards, cards } = vnode.attrs;
+    if (this.selectedCards.length === 2) {
+      const isMatch = compareCards(...this.selectedCards);
+      if (isMatch) {
+        //check if won
+        const isWinner = this._checkIfWinner(cards);
+        this.selectedCards = [];
+        if (isWinner) {
+          window.setTimeout(() => {
+            m.redraw();
+          }, 500);
+        }
       } else {
-        console.log("Unlucky");
-        this.targetCard.isFlipped = false;
-        card.isFlipped = false;
-        this.targetCard = undefined;
+        // delay before resetting the mis-match
+        window.setTimeout(() => {
+          this.selectedCards.map((card) => this.flipped.delete(card));
+          this.selectedCards = [];
+          m.redraw();
+        }, 800);
       }
     }
+  }
+
+  _checkIfWinner(cards) {
+    const cardCount = cards.length;
+    const flippedCount = this.flipped.size;
+    this.hasWon = cardCount === flippedCount;
+    this.isActiveGame = !this.hasWon;
+    return this.hasWon;
+  }
+
+  _handleCardClick(card) {
+    if (this.flipped.has(card)) {
+      this.flipped.delete(card);
+      this.selectedCards = this.selectedCards.filter(
+        (selectedCard) => selectedCard != card
+      );
+    } else {
+      this.flipped.add(card);
+      this.selectedCards.push(card);
+    }
+  }
+
+  _handleResetGame(onResetGame) {
+    onResetGame();
+    this.flipped.clear();
+    this.selectedCards = [];
+    this.isActiveGame = true;
+    this.hasWon = false;
   }
 }
 
